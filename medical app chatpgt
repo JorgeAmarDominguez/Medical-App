@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Chatbot</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .chatbox { width: 50%; margin: auto; padding: 20px; border: 2px solid #333; border-radius: 10px; }
+        .btn { margin: 10px; padding: 10px 20px; border: none; background: #007bff; color: white; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="chatbox">
+    <h2>Medical Symptom Checker</h2>
+    <p id="question">What symptom are you experiencing?</p>
+    <button class="btn" onclick="nextStep('headache')">Headache</button>
+    <button class="btn" onclick="nextStep('stomach_pain')">Stomach Pain</button>
+    <button class="btn" onclick="nextStep('fever')">Fever</button>
+</div>
+
+<script>
+function nextStep(symptom) {
+    let questionBox = document.getElementById("question");
+    if (symptom === "headache") {
+        questionBox.innerHTML = "Do you also feel dizzy?";
+        updateButtons(["Yes", "No"], ["migraine", "tension_headache"]);
+    } else if (symptom === "stomach_pain") {
+        questionBox.innerHTML = "Did you eat something unusual?";
+        updateButtons(["Yes", "No"], ["food_poisoning", "gastritis"]);
+    } else if (symptom === "fever") {
+        questionBox.innerHTML = "Do you have a cough?";
+        updateButtons(["Yes", "No"], ["flu", "infection"]);
+    }
+}
+
+function updateButtons(options, nextSteps) {
+    let buttons = document.querySelector(".chatbox");
+    buttons.innerHTML = `<h2>Medical Symptom Checker</h2><p id="question">${document.getElementById("question").innerHTML}</p>`;
+    for (let i = 0; i < options.length; i++) {
+        buttons.innerHTML += `<button class="btn" onclick="showResult('${nextSteps[i]}')">${options[i]}</button>`;
+    }
+}
+
+function showResult(condition) {
+    let diagnosis = {
+        "migraine": "This could be a migraine. Try resting in a dark room and drinking water.",
+        "tension_headache": "You may have a tension headache. Try relaxing and reducing stress.",
+        "food_poisoning": "You may have food poisoning. Stay hydrated and rest.",
+        "gastritis": "This could be gastritis. Avoid spicy food and consider an antacid.",
+        "flu": "You might have the flu. Rest and drink plenty of fluids.",
+        "infection": "This could be an infection. Monitor symptoms and consult a doctor if it worsens."
+    };
+    document.getElementById("question").innerHTML = diagnosis[condition];
+}
+</script>
+
+</body>
+</html>
